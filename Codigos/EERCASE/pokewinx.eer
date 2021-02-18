@@ -40,7 +40,7 @@
     <links xmi:type="eer:AttributeLink" xmi:id="_W8ufQG-_Eeu4zZiXc2OOxw" source="_KywcwG-_Eeu4zZiXc2OOxw" target="_W8q04G-_Eeu4zZiXc2OOxw"/>
     <links xmi:type="eer:AttributeLink" xmi:id="_gZn3gG-_Eeu4zZiXc2OOxw" source="_I4gWkG-_Eeu4zZiXc2OOxw" target="_gZjmEG-_Eeu4zZiXc2OOxw"/>
     <links xmi:type="eer:RelationshipLink" xmi:id="_JWQNEG_AEeu4zZiXc2OOxw" source="_KywcwG-_Eeu4zZiXc2OOxw" target="_fJjWwG-_Eeu4zZiXc2OOxw" cardinality="MANY"/>
-    <links xmi:type="eer:RelationshipLink" xmi:id="_LA6YEG_AEeu4zZiXc2OOxw" source="_LnMxcG-_Eeu4zZiXc2OOxw" target="_fJjWwG-_Eeu4zZiXc2OOxw" participation="TOTAL" cardinality="MANY"/>
+    <links xmi:type="eer:RelationshipLink" xmi:id="_LA6YEG_AEeu4zZiXc2OOxw" source="_LnMxcG-_Eeu4zZiXc2OOxw" target="_fJjWwG-_Eeu4zZiXc2OOxw" cardinality="MANY"/>
     <links xmi:type="eer:RelationshipLink" xmi:id="_OiPJwG_AEeu4zZiXc2OOxw" source="_CrQUsG_AEeu4zZiXc2OOxw" target="_zEEkcG-_Eeu4zZiXc2OOxw"/>
     <links xmi:type="eer:RelationshipLink" xmi:id="_Rqc34G_AEeu4zZiXc2OOxw" source="_KCuG8G-_Eeu4zZiXc2OOxw" target="_zEEkcG-_Eeu4zZiXc2OOxw" chosenLink="true"/>
     <links xmi:type="eer:RelationshipLink" xmi:id="_pnp34G_AEeu4zZiXc2OOxw" source="_KywcwG-_Eeu4zZiXc2OOxw" target="_w0Fe0G-_Eeu4zZiXc2OOxw" participation="TOTAL"/>
