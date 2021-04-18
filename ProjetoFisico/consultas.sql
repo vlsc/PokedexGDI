@@ -137,6 +137,7 @@ from pokewinx
 where especie = 'fogo');
 
 -- ############################### OPERACAO DE CONJUNTO ###############################
+
 --Mostrar o nome de todos as pessoas cadastradas juntamente com todas as especies cadastradas
 select nome
 from treinador
@@ -150,3 +151,91 @@ from treinador
 intersect
 (select cpf
 from medico);
+
+-- Nome e quantidade de vitórias em batalhas de ginásio de cada treinador, mesmo que não tenha batalhado
+select nome_treinador, count(*) as vitorias 
+from (select t.nome as nome_treinador from treinador t inner join batalha b on t.cpf = b.cpf_treinador)
+group by nome_treinador
+union
+select t.nome, 0
+from treinador t 
+where not exists(select *
+                 from batalha b
+                 where b.cpf_treinador = t.cpf and b.cidade is not null
+                );
+
+-- Nome das pessoas que são medicas e lideres ao mesmo tempo
+select nome 
+from treinador t
+where exists(select*
+             from medico m
+             where t.cpf = m.cpf 
+            )
+intersect 
+select nome 
+from treinador t
+where exists(select*
+             from lider l
+             where t.cpf = l.cpf 
+            );
+                       
+--############################### GROUP BY/HAVING ###############################
+
+-- Cpf dos treinadores que tem 8 ou mais insígnias 
+select cpf, count(*) as insignias
+from insignia
+where cpf is not null
+group by cpf
+having count(*) >= 8;
+
+-- Nome dos treinadores com mais insignias que a média 
+select t.nome
+from treinador t
+where t.cpf in (select cp
+                   from (select i.cpf as cp, count(*) as qtd from insignia i group by i.cpf)
+                   where qtd > (select avg(qtd_insig)
+                                   from (select b.cpf, count(*) as qtd_insig
+                                         from insignia b
+                                         group by cpf
+                                        )
+                                  )
+               ); 
+                       
+--############################### SEMI JOIN ###############################
+   
+-- Nome dos treinadores com pokemon 
+select t.nome 
+from treinador t
+where exists(select *
+             from pokewinx p
+             where p.cpf = t.cpf
+            );
+
+-- Especie dos pokemons do tipo agua 
+select p.especie
+from pokewinx p
+where exists(select *
+             from tipos d
+             where d.idt = p.idt and tipo = 'agua'
+             );
+
+-- Nome dos treinadores com pokemons do tipo terra 
+select t.nome 
+from treinador t
+where exists(select *
+             from pokewinx p
+             where p.cpf = t.cpf and exists(select *
+                                            from tipos d
+                                            where d.idt = p.idt and tipo = 'terra'
+                                           )
+            );
+
+-- Nome dos treinadores que já perderam batalhas
+select t.nome 
+from treinador t
+where exists(select *
+             from batalha b
+             where b.cpf_treinador = t.cpf and b.cidade is null 
+            );
+
+                       
