@@ -46,6 +46,11 @@ select p.especie, p.idt
 from pokewinx p
 where not exists (select * from trata t where t.idt = p.idt);
 
+-- nome e cpf dos treinadores que não fizeram nenhuma batalha e não são líderes
+select t.nome, t.cpf from treinador t
+where not exists (select * from batalha b where b.cpf_treinador = t.cpf)
+and not exists (select * from lider l where l.cpf = t.cpf);
+
 -- ############################### SUBCONSULTA ESCALAR ###############################
 
 select nome
@@ -101,6 +106,13 @@ where cpf not in (select cpf
                   where cpf <
                   any (select cpf
                   from medico));
+
+-- cidade que mais deu insignias em batalha (se tiverem 2 ou + com mesmo valor, retorna a menor lexicograficamente
+select cidade from (select count(data_bat) as qt, cidade from batalha
+                    where cidade is not null
+                    group by cidade)
+order by qt desc, cidade asc
+fetch first 1 rows only;
 
 -- ############################### SUBCONSULTA LINHA ###############################
                        
@@ -187,6 +199,13 @@ from insignia
 where cpf is not null
 group by cpf
 having count(*) >= 8;
+
+-- mostrando treinadores com mais do que 3 insignias
+select t.nome, count(cidade) as qtInsignias
+from insignia i inner join 
+treinador t on i.cpf = t.cpf
+group by t.nome
+having count(cidade) > 3;
 
 -- Nome dos treinadores com mais insignias que a média 
 select t.nome
