@@ -79,25 +79,37 @@ return 'FALSE';
                  return null;
 end;
 
--- A FUNÇÃO RETORNA O NOME DO PRIMEIRO MÉDICO A TRATAR O POKEWINX DADO, CASO O POKEWINX NÃO TENHA SIDO TRATADO AINDA, RETORNA “FALSE”. 
-create or replace function primeiroATratar (idPokewinx number) return varchar is
+-- A FUNÇÃO RETORNA UMA TABELA COM TODOS OS MÉDICOS QUE JÁ TRATARAM O POKEWINX DADO. 
+create or replace type tabelaObjeto as object (
+  n varchar(30)
+);
+/
+create or replace type tabela as table of tabelaObjeto;
+/
+create or replace function findTrata (idPokewinx number) return tabela is
+medicos tabela;
 cursor cursor_Trata is
-    select * from trata;
+    select *
+    from trata;
 cursor cursor_Treinador is
-    select * from treinador;
+    select *
+    from treinador;
 begin
+    medicos := tabela();
     for reg_Trata in cursor_Trata loop
         if (reg_Trata.idt = idPokewinx) then
             for reg_Treinador in cursor_Treinador loop
-                if (reg_Treinador.cpf = reg_Trata.cpf) then return reg_Treinador.nome;
+                if (reg_Treinador.cpf = reg_Trata.cpf) then 
+                    medicos.extend; 
+                    medicos(medicos.count) := tabelaObjeto(reg_Treinador.nome);
                 end if;
             end loop;
         end if;
     end loop;
-    return 'FALSE';
-        
-    exception
-        when NO_DATA_FOUND then
-dbms_output.put_line('Dados indisponiveis da tabela');
-             return null;
+    return medicos;
+   	 
+	exception
+    	when NO_DATA_FOUND then
+        	dbms_output.put_line('Dados indisponiveis da tabela');
+     		return null;
 end;
