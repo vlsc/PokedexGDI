@@ -12,12 +12,15 @@ end;
 
 
 -- O GATILHO É ATIVADO APÓS ATRIBUIR UM TREINADOR PARA UM POKEWINX
-create or replace trigger trigger_treina_pokewinx
-after insert cpf on pokewinx
-for each row
-begin
-dbms_output.put_line('Atribuindo pokewinx ao treinador: '||:n.cpf); 
-end;
+create or replace trigger trigger_treina_pokewinx 
+after update of cpf on pokewinx 
+referencing new as n 
+for each row 
+when (n.cpf is not null) 
+begin 
+    dbms_output.put_line('Atribuindo pokewinx ao treinador: '||:n.cpf);  
+end; 
+
 
 -- O GATILHO É ATIVADO APÓS A ATUALIZAÇÃO DE CPF EM UMA INSÍGNIA. IMPRIME UMA STRING INFORMANDO O NOVO CPF E O ANTIGO (SE HOUVER).
 create or replace trigger trigger_change_insignia
