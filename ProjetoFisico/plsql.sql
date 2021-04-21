@@ -78,3 +78,26 @@ return 'FALSE';
                 dbms_output.put_line('Dados indisponiveis da tabela');
                  return null;
 end;
+
+-- A FUNÇÃO RETORNA O NOME DO PRIMEIRO MÉDICO A TRATAR O POKEWINX DADO, CASO O POKEWINX NÃO TENHA SIDO TRATADO AINDA, RETORNA “FALSE”. 
+create or replace function primeiroATratar (idPokewinx number) return varchar is
+cursor cursor_Trata is
+    select * from trata;
+cursor cursor_Treinador is
+    select * from treinador;
+begin
+    for reg_Trata in cursor_Trata loop
+        if (reg_Trata.idt = idPokewinx) then
+            for reg_Treinador in cursor_Treinador loop
+                if (reg_Treinador.cpf = reg_Trata.cpf) then return reg_Treinador.nome;
+                end if;
+            end loop;
+        end if;
+    end loop;
+    return 'FALSE';
+        
+    exception
+        when NO_DATA_FOUND then
+dbms_output.put_line('Dados indisponiveis da tabela');
+             return null;
+end;
