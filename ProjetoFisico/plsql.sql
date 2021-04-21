@@ -62,3 +62,32 @@ begin
     end loop; 
     close cur_peso; 
 end;
+
+--Allan
+
+--Function
+
+CREATE OR REPLACE FUNCTION findPokewinx (especiePokeWinx VARCHAR)  RETURN VARCHAR IS
+
+    CURSOR cursor_Pokewinx IS
+    SELECT *
+    FROM pokewinx;
+    
+    BEGIN
+        
+        FOR reg_Pokewinx IN cursor_Pokewinx LOOP
+        
+            IF(reg_Pokewinx.especie = especiePokeWinx) THEN
+                return 'TRUE';
+            END IF;
+            
+        END LOOP;
+        
+        return 'FALSE';
+        
+        EXCEPTION 
+            WHEN NO_DATA_FOUND THEN 
+                dbms_output.put_line('Dados indisponiveis da tabela');
+                RETURN NULL;
+        
+    END;
