@@ -39,6 +39,13 @@ full outer join treinador b
 on (a.cpf = b.cpf)
 order by especie;
 
+-- (Junção Externa) Dizer a cidade e o codigo das insignias que NÂO estão associadas a treinadores.
+
+select insignia.cidade, insignia.cod
+from insignia left outer join treinador
+on (insignia.cpf = treinador.cpf)
+where treinador.cpf is null;
+
 -- ############################### ANTI JUNCAO ###############################
 
 -- projeta a espécie e o id de todos os pokemons que não são tratados por nenhum médico
@@ -125,7 +132,15 @@ where (car_peso, car_altura) = (select car_peso, car_altura from pokewinx where 
 select especie, idt
 from pokewinx, (select car_altura as throh_altura, car_peso as throh_peso from pokewinx where idt = 19)
 where throh_altura < car_altura and throh_peso < car_peso;
-                  
+                       
+-- (Subconsulta linha) Mostrar todos os dados dos pokewinx que possuem a mesma altura e personalidade que o pokewinx de id 42.
+
+select *
+from pokewinx
+where (car_altura, car_personalidade) = (select car_altura, car_personalidade
+                                         from pokewinx
+                                         where idt = 42 );
+                       
 -- ############################### SUBCONSULTA TABELA ###############################
                        
 -- mostrar o id e a espécie dos pokemons que não são da mesma especie do pokemon com id 10
@@ -256,5 +271,14 @@ where exists(select *
              from batalha b
              where b.cpf_treinador = t.cpf and b.cidade is null 
             );
+                       
+                       
+-- (Semi-Junção) Dizer o nome dos treinadores que possuem o pokewinx chamado "squirtle"
+
+select treinador.nome
+from treinador
+where exists (select *
+              from pokewinx
+              where treinador.cpf = pokewinx.cpf and pokewinx.especie = 'squirtle');
 
                        
