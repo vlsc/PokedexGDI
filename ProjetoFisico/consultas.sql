@@ -226,14 +226,15 @@ having count(cidade) > 3;
 select t.nome
 from treinador t
 where t.cpf in (select cp
-                   from (select i.cpf as cp, count(*) as qtd from insignia i group by i.cpf)
+                   from (select i.cpf as cp, count(*) as qtd from insignia i where cpf is not null group by i.cpf)
                    where qtd > (select avg(qtd_insig)
                                    from (select b.cpf, count(*) as qtd_insig
                                          from insignia b
+                                         where cpf is not null
                                          group by cpf
                                         )
                                   )
-               ); 
+               );  
                        
 --############################### SEMI JOIN ###############################
    
