@@ -91,3 +91,23 @@ CREATE OR REPLACE FUNCTION findPokewinx (especiePokeWinx VARCHAR)  RETURN VARCHA
                 RETURN NULL;
         
     END;
+    
+-- Matheus
+
+create or replace trigger trigger_ganha_batalha
+after insert on batalha
+referencing new as n
+for each row
+when(n.cidade is not null and n.cod is not null)
+begin
+  update insignia
+  set cpf = :n.cpf_treinador
+  where cidade = :n.cidade and cod = :n.cod;
+end;
+
+create or replace procedure adiciona_insignia_sem_batalha(cp varchar, cid varchar, cd number) is
+begin
+  update insignia
+  set cpf = cp
+  where cidade = cid and cod = cd;
+end;
