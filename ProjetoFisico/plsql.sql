@@ -42,15 +42,10 @@ create or replace procedure pokemon_tipo (idPoke number) is
         select tipo
         from tipos
         where idt = idPoke;
-    tipoPoke tipos.tipo%TYPE;
 begin
-    open cur_poke;
-    loop
-            fetch cur_poke into tipoPoke;
-            exit when cur_poke%notfound;
-            dbms_output.put_line('tipo: '||tipoPoke);
+    for tipoPoke in cur_poke loop
+        dbms_output.put_line('tipo: '||tipoPoke.tipo);
     end loop;
-    close cur_poke;
 end;
 
 -- ATUALIZA INSIGNIA A PARTIR DOS VALORES DE CPF, CIDADE E CÓDIGO FORNECIDOS COMO PAR METROS NA PROCEDURE (FEITO PRA FORNECER UM CONTADOR COMO PAR METRO EM CÓDIGO)
