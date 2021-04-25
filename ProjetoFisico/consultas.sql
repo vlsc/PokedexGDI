@@ -68,11 +68,11 @@ where car_altura > (select avg(car_altura)
                     from pokewinx);
 
 -- PROJETA OS NOMES DA TABELA TREINADOR ONDE A DATA DE NASCIMENTO É MAIOR DO QUE A DO TREINADOR CUJO CPF É ‘912345678’ (OU SEJA, PROJETA TODOS OS TREINADORES MAIS NOVOS DO QUE ELE)
-select nome
-from treinador
-where dtNascimento > (select dtNascimento
-                      from treinador
-                      where cpf =  ‘912345678’);
+select nome 
+from treinador 
+where dtNascimento > (select dtNascimento 
+                      from treinador 
+                      where cpf = '912345678');
 
 -- SUBCONSULTA LINHA
 -- PROJETA TODOS OS DADOS DOS POKEWINX QUE POSSUEM A MESMA ALTURA E PERSONALIDADE QUE O POKEWINX DE ID 42

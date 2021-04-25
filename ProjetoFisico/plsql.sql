@@ -9,8 +9,7 @@ begin
     set cpf = :n.cpf_treinador
     where cidade = :n.cidade and cod = :n.cod;
 end;
-
-
+/
 -- O GATILHO É ATIVADO APÓS ATRIBUIR UM TREINADOR PARA UM POKEWINX
 create or replace trigger trigger_treina_pokewinx 
 after update of cpf on pokewinx 
@@ -20,8 +19,7 @@ when (n.cpf is not null)
 begin 
     dbms_output.put_line('Atribuindo pokewinx ao treinador: '||:n.cpf);  
 end; 
-
-
+/
 -- O GATILHO É ATIVADO APÓS A ATUALIZAÇÃO DE CPF EM UMA INSÍGNIA. IMPRIME UMA STRING INFORMANDO O NOVO CPF E O ANTIGO (SE HOUVER).
 create or replace trigger trigger_change_insignia
 after update of cpf on insignia
@@ -35,7 +33,7 @@ begin
    ||'Antigo treinador: '||:o.cpf); 
     end if; 
 end;
-
+/
 -- IMPRIME O(S) TIPO(S) DE UM POKEMON A PARTIR DO SEU ID.
 create or replace procedure pokemon_tipo (idPoke number) is
     cursor cur_poke is
@@ -47,7 +45,7 @@ begin
         dbms_output.put_line('tipo: '||tipoPoke.tipo);
     end loop;
 end;
-
+/
 -- ATUALIZA INSIGNIA A PARTIR DOS VALORES DE CPF, CIDADE E CÓDIGO FORNECIDOS COMO PAR METROS NA PROCEDURE (FEITO PRA FORNECER UM CONTADOR COMO PAR METRO EM CÓDIGO)
 create or replace procedure adiciona_insignia_sem_batalha(cp varchar, cid varchar, cd number) is
 begin
@@ -55,7 +53,7 @@ begin
   set cpf = cp
   where cidade = cid and cod = cd;
 end;
-
+/
 -- FUNÇÃO RETORNA UMA STRING PARA INFORMAR SE AQUELA ESPÉCIE DE POKEWINX JÁ EXISTE NO BANCO DE DADOS.
 create or replace function findPokewinx (especiePokeWinx varchar) return varchar is
 cursor cursor_Pokewinx is
@@ -73,7 +71,7 @@ return 'FALSE';
                 dbms_output.put_line('Dados indisponiveis da tabela');
                  return null;
 end;
-
+/
 -- A FUNÇÃO RETORNA UMA TABELA COM TODOS OS MÉDICOS QUE JÁ TRATARAM O POKEWINX DADO. 
 create or replace type tabelaObjeto as object (
   n varchar(30)
@@ -108,3 +106,4 @@ begin
         	dbms_output.put_line('Dados indisponiveis da tabela');
      		return null;
 end;
+/
