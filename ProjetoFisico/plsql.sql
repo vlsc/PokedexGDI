@@ -46,6 +46,19 @@ begin
     end loop;
 end;
 /
+--IMPRIME OS POKEMONS DE UM TREINADOR A PARTIR DE SEU CPF
+create or replace procedure pokemons(cpfTreinador varchar) is
+	cursor cur_pokemons is
+    		select especie
+    		from pokewinx
+    		where cpf = cpfTreinador;
+Begin
+	dbms_output.put_line(‘Pokemons do treinador’ ||cpfTreinador);
+	for esp in cur_pokemons loop
+    		dbms_output.put_line(esp.especie);
+	end loop;
+end;
+/
 -- ATUALIZA INSIGNIA A PARTIR DOS VALORES DE CPF, CIDADE E CÓDIGO FORNECIDOS COMO PAR METROS NA PROCEDURE (FEITO PRA FORNECER UM CONTADOR COMO PAR METRO EM CÓDIGO)
 create or replace procedure adiciona_insignia_sem_batalha(cp varchar, cid varchar, cd number) is
 begin
