@@ -52,7 +52,7 @@ create or replace procedure pokemons(cpfTreinador varchar) is
     		select especie
     		from pokewinx
     		where cpf = cpfTreinador;
-Begin
+begin
 	dbms_output.put_line(‘Pokemons do treinador’ ||cpfTreinador);
 	for esp in cur_pokemons loop
     		dbms_output.put_line(esp.especie);
